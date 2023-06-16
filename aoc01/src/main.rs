@@ -19,14 +19,14 @@ fn main() {
     for section in sections {
         
         match section {
-            "" |" "| "\n" => {inventory_sum = 0;},
+            "" |" "| "\n" => {inventory_sum = 0},
             _ => {
-                inventory_sum += section.parse::<i32>().unwrap();
+                inventory_sum += section.parse::<i32>().unwrap()
             },
         }
         println!("Inventory sum: {}", inventory_sum);
         if inventory_sum > most_calories {
-            most_calories = inventory_sum;
+            most_calories = inventory_sum
         }
     }
     println!("{most_calories}");
