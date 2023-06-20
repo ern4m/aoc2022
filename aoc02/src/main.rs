@@ -4,18 +4,14 @@ use bimap::{ BiMap, BiHashMap };
 use std::collections::HashMap;
 
 // Make function to read input and parse match pairs
-fn parse_file(file_path: &String) {
+fn parse_file(file_path: &str) -> Vec<Vec<String>> {
     let contents = fs::read_to_string(file_path).expect("Error while reading file");
-    let lines = contents.split("\n");
-    let vec_lines = lines.collect::<Vec<&str>>();
-    let curr: Vec<Vec<&str>> = vec_lines
-        .iter()
+    contents.lines()
+        .filter(|x| !x.is_empty())
         .map(|x| {
-            if *x != "" { Some(x.split(" ").collect::<Vec<&str>>()) } else { None }
+            x.split_whitespace().map(|x| x.to_string()).collect::<Vec<_>>()
         })
-        .flatten()
-        .collect();
-    println!("curr: {:?}", curr);
+        .collect()
 }
 
 fn main() {
@@ -24,7 +20,8 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     let file_path = &args[1];
 
-    parse_file(file_path);
+    let parsed = parse_file(file_path);
+    println!("{:?}", parsed);
     // A | X - Rock
     // B | Y - Paper
     // C | Z - Scissors
