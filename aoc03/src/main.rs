@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::prelude::*;
 
 fn make_map() -> HashMap<char, i32> {
     let lower = 'a'..'z';
@@ -21,20 +23,32 @@ fn make_map() -> HashMap<char, i32> {
     lmap
 }
 
-fn main() {
-    // let mymap = make_map();
-    let mymap = make_map();
+
+fn get_line_result(line: &str, map: &HashMap<char, i32>) -> i32{
+
+    let (start, end) = line.split_at(line.len()/2);
     
-    let phrase = "asdmnzcklasehjweIKSDBAJBabDBsaldhbASH";
+    let mut result = 0;
 
-    let paddr = phrase.as_ptr();
-    dbg!(paddr);
-    println!("{:p}", paddr);
-
-    unsafe {
-        println!("{:p}", paddr.offset(4));
-        println!("{:p}", &paddr.offset(4));
+    for char in start.chars() {
+       if end.contains(char) {
+           result = map.get(&char).unwrap();
+       } else {
+           result = 0;
+       }
     }
 
-    // dbg!(phrase.split_at(phrase.len()/2));
+    result
+
+}
+
+fn main() -> std::io::Result<()> {
+    // let mymap = make_map();
+    let mymap = make_map();
+
+    for line in include_str!("../input.txt").lines() {
+        get_line_result(&line, &mymap);
+    }
+
+    Ok(())
 }
