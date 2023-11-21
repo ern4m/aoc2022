@@ -1,9 +1,12 @@
 use std::fs;
-
-use aoc03::first_part;
+use aoc04::first_part;
 
 fn main() {
-    let file = fs::read_to_string("./input.txt").unwrap();
-    println!("{}", first_part(&file));
+    let file = fs::read_to_string("./new_input.txt");
+    match file {
+        Ok(v) => println!("{v}"),
+        Err(e) => println!("{e}"),
+    };
+    //println!("{}", first_part(&file));
 }
 
