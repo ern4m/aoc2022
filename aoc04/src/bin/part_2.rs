@@ -1,8 +1,8 @@
 use std::fs;
-use aoc04::first_part;
+use aoc04::second_part;
 
 fn main() {
     let file = fs::read_to_string("input.txt").unwrap();
-    println!("{}", first_part(&file));
+    println!("{}", second_part(&file));
 }
 

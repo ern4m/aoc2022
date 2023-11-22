@@ -1,4 +1,4 @@
-fn parse_input(input: &str) -> Vec<Vec<i32>> {
+fn parse_input(input: &str) -> Vec<[i32; 4]> {
     input
         .lines()
         .map(|v| {
@@ -32,16 +32,56 @@ fn check_if_contains(vec: Vec<i32>) -> bool {
     }
 }
 
+// fn check_if_overlaps(vec: Vec<i32>) -> bool {
+//     let _pairs = vec.clone();
+//     match _pairs[..] {
+//         [a, b, c, d] => {
+//             // let fp = a..=b;
+//             if a <= c && b <= d {
+//                 return true
+//             } else if c >= a {
+//                 let _reverse_pairs: Vec<i32> = vec![c, d, a, b];
+//                 return check_if_overlaps(_reverse_pairs)
+//             } else {
+//                 return false
+//             }
+//         },
+//         _ => return false,
+//     }
+// }
 
-pub fn first_part(input: &str) -> i32 {
-    let mut counter = 0;
-
-    for x in parse_input(input) {
-        if check_if_contains(x) {
-            counter += 1;
-        }
+fn check_if_overlaps(vec: Vec<i32>) -> bool {
+    let _pairs = vec.clone();
+    match _pairs[..] {
+        [a, b, c, d] => {
+            let fp = a..=b;
+            // let sp = c..=d;
+            if fp.contains(&c) || fp.contains(&d) {
+                return true
+            } else if c >= a {
+                let _reverse_pairs: Vec<i32> = vec![c, d, a, b];
+                return check_if_overlaps(_reverse_pairs)
+            } else {
+                return false
+            }
+        },
+        _ => false
     }
-    counter
+}
+
+
+pub fn first_part(input: &str) -> usize {
+    parse_input(input)
+        .iter()
+        .filter(|[a, b, c, d]| (a >= c && b <= d) || (c >= a && d <= b))
+        .count()
+}
+
+pub fn second_part(input: &str) -> usize {
+    parse_input(input)
+        .iter()
+        .filter(|[a, b, c, d]| (a <= c && b >= c) || (c <= a && d >= a))
+        .count()
 }
 
 #[cfg(test)]
@@ -61,5 +101,10 @@ mod tests {
         assert_eq!(result, 2);
     }
 
+    #[test]
+    fn part2_works() {
+        let result = second_part(INPUT);
+        assert_eq!(result, 4);
+    }
 }
 
