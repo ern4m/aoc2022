@@ -14,12 +14,7 @@ fn parse_stack(input: Vec<&str>) -> () {
         .clone()
         .into_iter()
         .take(1)
-        .map(|item| 
-             item.chars()
-             .into_iter()
-             .map(|x| x)
-             .filter(|x| x != &' ')
-             .map(|x| x as u8 - 48).collect::<Vec<_>>())
+        .map(|item| item.chars().into_iter().map(|x| x).filter(|x| x != &' ').map(|x| x as u8 - 64).collect::<Vec<_>>())
         .collect();
     dbg!(stack_qty);
     ()
